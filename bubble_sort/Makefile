@@ -2,9 +2,9 @@
 CC = gcc
 CXX = g++
 RUSTC = rustc
-CFLAGS = -O0
-CXXFLAGS = -O0
-RUSTFLAGS = -C opt-level=0
+CFLAGS = -O3
+CXXFLAGS = -O3
+RUSTFLAGS = -C opt-level=3
 
 # Caminhos dos executáveis (agora relativos à pasta bubble_sort)
 C_BIN = c/bubble_sort
