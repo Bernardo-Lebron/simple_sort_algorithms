@@ -14,23 +14,22 @@ Trabalho prático da disciplina de **Algoritmos e Estruturas de Dados I**
 
 ## 📋 Sumário
 
-1. [O que são Métodos de Ordenação?](#1-o-que-são-métodos-de-ordenação)
-2. [Contextualização dos Algoritmos Simples](#2-contextualização-dos-algoritmos-simples)
-3. [Objetivos](#3-objetivos)
-4. [Estrutura do Projeto](#4-estrutura-do-projeto)
-5. [Algoritmos Analisados](#5-algoritmos-analisados)
-   - 5.1. [Selection Sort](#51-selection-sort)
-   - 5.2. [Insertion Sort](#52-insertion-sort)
-   - 5.3. [Gnome Sort](#53-gnome-sort)
-   - 5.4. [Bubble Sort](#54-bubble-sort)
-6. [Metodologia Experimental](#6-metodologia-experimental)
-7. [Equipe e Colaboradores](#7-equipe-e-colaboradores)
+1. O que são Métodos de Ordenação?
+2. Contextualização dos Algoritmos Simples
+3. Objetivos
+4. Estrutura do Projeto
+5. Algoritmos Analisados
+   - 5.1. Selection Sort
+   - 5.2. Insertion Sort
+   - 5.3. Gnome Sort
+   - 5.4. Bubble Sort
+6. Metodologia Experimental
+7. Equipe e Colaboradores
 
 &nbsp;
 
----
 
-## 1. O que são Métodos de Ordenação?
+## 🤔 1. O que são Métodos de Ordenação?
 
 Métodos de ordenação são algoritmos computacionais utilizados para reorganizar os elementos de uma estrutura de dados segundo uma ordem determinada — normalmente crescente ou decrescente. Formalmente, dado um vetor `A = [a₁, a₂, ..., aₙ]`, o objetivo é produzir uma permutação `A' = [a'₁, a'₂, ..., a'ₙ]` tal que:
 
@@ -51,9 +50,8 @@ Os algoritmos de ordenação podem ser classificados segundo diversas propriedad
 
 &nbsp;
 
----
 
-## 2. Contextualização dos Algoritmos Simples
+## 📌 2. Contextualização dos Algoritmos Simples
 
 Os algoritmos de ordenação simples — também chamados de algoritmos elementares ou quadráticos — constituem a classe mais básica de métodos de ordenação baseados em comparação. Pertencem à categoria **O(n²)** no caso médio e pior caso, o que os torna inadequados para grandes volumes de dados, mas valiosos sob outras perspectivas.
 
@@ -75,9 +73,8 @@ Os algoritmos analisados neste projeto compartilham as seguintes característica
 
 &nbsp;
 
----
 
-## 3. Objetivos
+## 🎯 3. Objetivos
 
 O objetivo central deste projeto é realizar uma **análise empírica e comparativa** dos algoritmos de ordenação simples, verificando na prática as previsões teóricas de complexidade computacional e quantificando o impacto de diferentes linguagens de programação sobre o tempo de execução.
 
@@ -98,9 +95,8 @@ Os experimentos foram conduzidos com três cenários de entrada para cada tamanh
 
 &nbsp;
 
----
 
-## 4. Estrutura do Projeto
+## 📂 4. Estrutura do Projeto
 
 O projeto está organizado de forma que cada algoritmo possua sua respectiva pasta independente, viabilizando o desenvolvimento paralelo pela equipe via Git.
 
@@ -138,7 +134,6 @@ O projeto está organizado de forma que cada algoritmo possua sua respectiva pas
 
 &nbsp;
 
----
 
 ## 5. Algoritmos Analisados
 
@@ -148,7 +143,6 @@ O projeto está organizado de forma que cada algoritmo possua sua respectiva pas
 
 &nbsp;
 
----
 
 ### 5.2. Insertion Sort
 
@@ -156,7 +150,6 @@ O projeto está organizado de forma que cada algoritmo possua sua respectiva pas
 
 &nbsp;
 
----
 
 ### 5.3. Gnome Sort
 
@@ -164,9 +157,8 @@ O projeto está organizado de forma que cada algoritmo possua sua respectiva pas
 
 &nbsp;
 
----
 
-### 5.4. Bubble Sort
+### 🫧 5.4. Bubble Sort
 
 O Bubble Sort é um algoritmo de ordenação por comparação que opera realizando passagens sucessivas sobre o vetor, comparando pares de elementos adjacentes e efetuando trocas sempre que a condição de desordem é satisfeita (`aᵢ > aᵢ₊₁`). A cada iteração completa, o maior elemento ainda não posicionado é deslocado para sua posição definitiva ao final do subvetor não ordenado — comportamento que origina o nome do algoritmo, em referência ao movimento de "bolhas" ascendentes.
 
@@ -325,9 +317,8 @@ make run N=100000  # Executa o benchmark completo para N elementos
 
 &nbsp;
 
----
 
-## 6. Metodologia Experimental
+## ⚙️ 6. Metodologia Experimental
 
 Os experimentos foram conduzidos de forma padronizada para todos os algoritmos, garantindo comparações consistentes entre implementações.
 
@@ -344,9 +335,8 @@ N ∈ { 10², 10³, 10⁴, 10⁵ }
 
 &nbsp;
 
----
 
-## 7. Equipe e Colaboradores
+## 👤 7. Equipe e Colaboradores
 
 | Algoritmo | Responsável |
 |---|---|
