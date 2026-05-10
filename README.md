@@ -102,13 +102,22 @@ O projeto está organizado de forma que cada algoritmo possua sua respectiva pas
 
 ```text
 .
-├── selection_sort/       # 📂 Selection Sort
-│   ├── c/
-│   ├── cpp/
-│   ├── rust/
-│   ├── js/
-│   ├── python/
-│   └── makefile
+selection_sort/
+├── c/
+│   └── selection.c
+├── cpp/
+│   └── selection.cpp
+├── dados/
+│   ├── aleatorio.txt
+│   ├── crescente.txt
+│   └── decrescente.txt
+├── javascript/
+│   └── selection.js
+├── python/
+│   └── selection.py
+├── rust/
+│   └── selection.rs
+└── makefile
 ├── insertion_sort/       # 📂 Insertion Sort
 │   ├── ...
 ├── gnome_sort/           # 📂 Gnome Sort
@@ -137,11 +146,224 @@ O projeto está organizado de forma que cada algoritmo possua sua respectiva pas
 
 ## 5. Algoritmos Analisados
 
-### 5.1. Selection Sort
+### 📊 5.1. Selection Sort
 
-> 🚧 Seção a ser preenchida pelo(a) responsável.
+O Selection Sort é um algoritmo de ordenação por comparação que opera sob o paradigma de **seleção do mínimo**: a cada iteração `i`, o algoritmo percorre o subarray não ordenado `A[i..n-1]`, identifica o índice do menor elemento e o posiciona definitivamente na posição `i` por meio de uma única troca. Esse processo se repete por `n-1` iterações até que todo o array esteja ordenado.
+
+A principal característica que diferencia o Selection Sort dos demais algoritmos simples é o uso exclusivo de **swapping** (troca direta de posições), em oposição ao **shifting** (deslocamento encadeado de elementos). Isso garante no máximo `O(n)` trocas no total, independentemente da distribuição dos dados — propriedade vantajosa quando a operação de escrita em memória tem custo elevado, como em memórias flash e dispositivos embarcados.
+
+#### Pseudocódigo
+
+```
+FUNCAO SELECTION_SORT
+  ENTRADA: VETOR de tamanho N
+  SAIDA  : VETOR ordenado em ordem crescente
+
+  PARA i DE 0 ATE N - 2 FACA
+    MIN_IDX <- i
+
+    PARA j DE i + 1 ATE N - 1 FACA
+      SE VETOR[j] < VETOR[MIN_IDX] ENTAO
+        MIN_IDX <- j
+      FIM SE
+    FIM PARA
+
+    SE MIN_IDX != i ENTAO
+      AUXILIAR        <- VETOR[i]
+      VETOR[i]        <- VETOR[MIN_IDX]
+      VETOR[MIN_IDX]  <- AUXILIAR
+    FIM SE
+  FIM PARA
+
+  RETORNE VETOR
+FIM FUNCAO
+```
+
+#### Complexidade
+
+O número de comparações realizadas é fixo e independente da distribuição dos dados, calculado pelo somatório:
+
+```
+C(n) = Σ (n - i - 1) para i de 0 até n-2  =  n(n-1)/2
+```
+
+Por isso, o Selection Sort apresenta complexidade **Θ(n²)** em todos os casos — não existe melhor caso em número de comparações.
+
+| Caso | Comparações | Trocas | Complexidade |
+|---|---:|---:|---:|
+| Melhor caso | n(n−1)/2 | 0 | Θ(n²) |
+| Caso médio | n(n−1)/2 | O(n) | Θ(n²) |
+| Pior caso | n(n−1)/2 | n − 1 | Θ(n²) |
+
+**Complexidade espacial:** O(1) — ordenação in-place, sem memória auxiliar proporcional à entrada.
+
+#### Propriedades
+
+| Propriedade | Valor | Justificativa |
+|---|---|---|
+| **Estável** | ❌ Não | A troca do mínimo com `A[i]` pode inverter a ordem relativa de elementos iguais |
+| **In-place** | ✅ Sim | Usa apenas variáveis auxiliares temporárias (índice do mínimo e variável de troca) |
+| **Adaptativo** | ❌ Não | O laço interno sempre percorre `A[i..n-1]` por completo, mesmo que o array já esteja ordenado |
+
+> **Nota sobre não-adaptatividade:** diferente do Insertion Sort — que degrada para O(n) em entradas já ordenadas — o Selection Sort realiza exatamente `n(n-1)/2` comparações em qualquer cenário. Essa característica é confirmada empiricamente nos resultados: os tempos dos cenários crescente e aleatório são praticamente idênticos.
+
+#### Linguagens e Estruturas de Dados
+
+Todas as implementações seguem a mesma lógica algorítmica, garantindo que as diferenças de desempenho sejam atribuídas exclusivamente ao ambiente de execução.
+
+| Linguagem | Estrutura interna | Tipo do elemento | Modelo de execução |
+|---|---|---|---|
+| C | `double[]` alocado com `malloc` | `double` (64 bits) | Compilada — gcc |
+| C++ | `std::vector<double>` | `double` (64 bits) | Compilada — g++ |
+| Rust | `Vec<f64>` | `f64` (64 bits) | Compilada — rustc (LLVM) |
+| JavaScript | `Array` (SMI/float64 otimizado pelo V8) | Number (float64) | JIT — Node.js / V8 |
+| Python | `list` (referências a objetos PyObject) | `float` | Interpretada — CPython |
+
+> A estrutura `list` do Python armazena **referências a objetos genéricos**, adicionando uma camada de indireção em cada acesso e comparação — principal fator do desempenho inferior dessa linguagem nos benchmarks. O Rust utiliza o método nativo `.swap()` de `Vec`, que o compilador otimiza para instruções de swap em registrador, sem acesso à memória intermediária.
+
+#### Ambiente Experimental
+
+| Componente | Especificação |
+|---|---|
+| Processador | Intel Core i3-1315U (1.20 GHz) |
+| Memória RAM | 8 GB |
+| Sistema Operacional | Windowns 11 - WSL |
+| Compilador C | GCC — flags `-O0` (sem otimização) e `-O3` (máxima otimização) |
+| Compilador C++ | G++ — flags `-O0` e `-O3` |
+| Compilador Rust | rustc — `opt-level=0` e `opt-level=3` |
+| Runtime JavaScript | Node.js (motor V8 com JIT) |
+| Interpretador Python | CPython 3.12.11 |
+
+**Medição de tempo por linguagem:**
+
+| Linguagem | Função utilizada | Precisão |
+|---|---|---|
+| C | `clock()` / `CLOCKS_PER_SEC` | Microssegundos |
+| C++ | `std::chrono::high_resolution_clock` | Nanossegundos |
+| Rust | `std::time::Instant::now()` / `.elapsed()` | Nanossegundos |
+| JavaScript | `process.hrtime.bigint()` | Nanossegundos |
+| Python | `time.time()` | Microssegundos |
+
+#### Dataset
+
+Os experimentos utilizam arquivos de entrada gerados previamente, localizados em `dados/`:
+
+| Arquivo | Conteúdo | Cenário |
+|---|---|---|
+| `crescente.txt` | Inteiros ordenados de forma crescente | Melhor caso em trocas |
+| `aleatorio.txt` | Inteiros em ordem aleatória (0 a 999.999) | Caso médio |
+| `decrescente.txt` | Inteiros ordenados de forma decrescente | Pior caso em trocas |
+
+Cada arquivo contém **1.000.000 de linhas** (um inteiro por linha). Os experimentos utilizam as primeiras `N` linhas do arquivo, controlado pelo parâmetro `N` do Makefile.
+
+#### Resultados
+
+**N = 10² e N = 10³ (tempos em segundos)**
+
+| Linguagem | Otimiz. | Crescente | Aleatório | Decrescente |
+|---|---|---:|---:|---:|
+| **N = 10²** | | | | |
+| C | -O0 | 0.000000 | 0.000004 | 0.000004 |
+| C | -O3 | 0.000000 | 0.000002 | 0.000002 |
+| C++ | -O0 | 0.000000 | 0.000012 | 0.000010 |
+| C++ | -O3 | 0.000000 | 0.000002 | 0.000002 |
+| Rust | sem | 0.000000 | 0.000025 | 0.000027 |
+| Rust | com | 0.000000 | 0.000003 | 0.000002 |
+| JavaScript | V8 JIT | 0.000300 | 0.000300 | 0.000600 |
+| Python | N/A | 0.000100 | 0.000100 | 0.000100 |
+| **N = 10³** | | | | |
+| C | -O0 | 0.000400 | 0.000400 | 0.000400 |
+| C | -O3 | 0.000200 | 0.000200 | 0.000200 |
+| C++ | -O0 | 0.001000 | 0.001200 | 0.001000 |
+| C++ | -O3 | 0.000200 | 0.000200 | 0.000200 |
+| Rust | sem | 0.002400 | 0.002500 | 0.002700 |
+| Rust | com | 0.000200 | 0.000300 | 0.000200 |
+| JavaScript | V8 JIT | 0.009300 | 0.002200 | 0.002200 |
+| Python | N/A | 0.009600 | 0.008900 | 0.008900 |
+
+**N = 10⁴ e N = 10⁵ (tempos em segundos)**
+
+| Linguagem | Otimiz. | Crescente | Aleatório | Decrescente |
+|---|---|---:|---:|---:|
+| **N = 10⁴** | | | | |
+| C | -O0 | 0.0377 | 0.0692 | 0.0420 |
+| C | -O3 | 0.0167 | 0.0053 | 0.0207 |
+| C++ | -O0 | 0.1225 | 0.1074 | 0.1070 |
+| C++ | -O3 | 0.0213 | 0.0404 | 0.0198 |
+| Rust | sem | 0.2882 | 0.2543 | 0.2544 |
+| Rust | com | 0.0245 | 0.0432 | 0.0263 |
+| JavaScript | V8 JIT | 0.0415 | 0.0793 | 0.0530 |
+| Python | N/A | 0.8565 | 1.6155 | 0.9334 |
+| **N = 10⁵** | | | | |
+| C | -O0 | 3.9520 | 4.1242 | 4.1141 |
+| C | -O3 | 2.0500 | 3.5188 | 1.9618 |
+| C++ | -O0 | 10.2689 | 10.3148 | 10.3462 |
+| C++ | -O3 | 2.1247 | 3.5188 | 1.9089 |
+| Rust | sem | 24.498 | 25.153 | 24.694 |
+| Rust | com | 2.3265 | 4.2560 | 2.1320 |
+| JavaScript | V8 JIT | 3.5835 | 6.6564 | 3.5851 |
+| Python | N/A | 93.164 | 164.890 | 98.378 |
+
+> `N = 10⁶` foi executado apenas para linguagens compiladas com `-O3`. Python foi descartado por tempo estimado superior a 10 horas.
+
+**N = 10⁶ — apenas linguagens compiladas com otimização**
+
+| Linguagem | Crescente | Aleatório | Decrescente |
+|---|---:|---:|---:|
+| C (-O3) | 201.24 | 208.13 | 213.05 |
+| C++ (-O3) | 201.54 | 237.43 | 217.39 |
+| Rust (com) | 251.39 | 271.34 | 256.24 |
+| JavaScript | 365.82 | 388.34 | 366.47 |
+
+#### Análise dos Resultados
+
+**Não-adaptatividade confirmada empiricamente:**
+Os tempos dos cenários crescente e aleatório são praticamente idênticos para todas as linguagens compiladas. Em C com `-O3` para N = 10⁵, o cenário crescente levou 2.0500 s e o aleatório 3.5188 s — a diferença decorre da ausência de trocas no cenário crescente, não da redução de comparações. Isso confirma que o número de comparações é sempre `n(n-1)/2`, independentemente da entrada.
+
+**Impacto da otimização de compilador:**
+A flag `-O3` reduziu o tempo em C de 4.1242 s para 3.5188 s para N = 10⁵ no cenário aleatório — ganho de ~15%. No Rust, o impacto foi mais expressivo: de 25.153 s para 4.256 s (speedup de ~6×), pois em `opt-level=0` o compilador mantém verificações de *bounds checking* que são eliminadas com otimização.
+
+**Hierarquia de desempenho:**
+`C -O3 ≈ C++ -O3 < Rust (com) < JavaScript < Python`
+
+O JavaScript (V8 JIT) se manteve competitivo até N = 10⁵, superando o Rust sem otimização. O Python foi inviável para N ≥ 10⁵ em cenário prático.
+
+#### Gráficos
+
+Os gráficos abaixo mostram o tempo de execução por linguagem nos três cenários:
+
+| Melhor Caso (Crescente) | Caso Médio (Aleatório) | Pior Caso (Decrescente) |
+|:---:|:---:|:---:|
+| ![Melhor caso](Graficos%20SelectionSort/Melhor%20caso.png) | ![Caso médio](Graficos%20SelectionSort/Caso%20m%C3%A9dio.png) | ![Pior caso](Graficos%20SelectionSort/Pior%20Caso.png) |
+
+#### Compilação e Execução
+
+> **Requisito:** Linux com `gcc`, `g++`, `rustc`, `node` e `python3` instalados.
+
+```bash
+cd "Selection Sort"
+
+make clean          # Remove binários anteriores
+make                # Compila C, C++ e Rust (sem otimização por padrão)
+make run N=10000    # Executa o benchmark para N = 10.000 elementos
+```
+
+Para executar **com otimização máxima**, edite o `Makefile` e altere as flags:
+
+```makefile
+CFLAGS    = -O3
+CXXFLAGS  = -O3
+RUSTFLAGS = -C opt-level=3
+```
+
+| Comando | Função |
+|---|---|
+| `make clean` | Remove os binários gerados |
+| `make` | Compila C, C++ e Rust |
+| `make run N=<valor>` | Executa o benchmark completo para `N` elementos |
 
 &nbsp;
+
 
 
 ### 5.2. Insertion Sort
@@ -233,7 +455,7 @@ FIM FUNCAO
 | Compilador C/C++ | GCC 13.3.0 / G++ 13.3.0 |
 | Compilador Rust | rustc (LLVM backend) |
 | Runtime JavaScript | Node.js (motor V8) |
-| Interpretador Python | CPython 3.x |
+| Interpretador Python | CPython 3.12.3 |
 
 As linguagens compiladas (C, C++, Rust) foram testadas em dois níveis de otimização:
 - **`-O0`** — sem otimização
