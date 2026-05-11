@@ -97,49 +97,92 @@ Os experimentos foram conduzidos com três cenários de entrada para cada tamanh
 
 
 ## 📂 4. Estrutura do Projeto
-
+ 
 O projeto está organizado de forma que cada algoritmo possua sua respectiva pasta independente, viabilizando o desenvolvimento paralelo pela equipe via Git.
-
+ 
 ```text
 .
-selection_sort/
-├── c/
-│   └── selection.c
-├── cpp/
-│   └── selection.cpp
-├── dados/
+├── selection_sort/
+│   ├── c/
+│   │   └── selection.c
+│   ├── cpp/
+│   │   └── selection.cpp
+│   ├── javascript/
+│   │   └── selection.js
+│   ├── python/
+│   │   └── selection.py
+│   ├── rust/
+│   │   └── selection.rs
+│   ├── dados/
+│   │   ├── aleatorio.txt
+│   │   ├── crescente.txt
+│   │   └── decrescente.txt
+│   ├── graficos_aleatorios.py
+│   └── Makefile
+├── insertion_sort/
+│   ├── c/
+│   │   └── main.c
+│   ├── C++/
+│   │   └── main.cpp
+│   ├── Javascript/
+│   │   └── main.js
+│   ├── python/
+│   │   ├── main.py
+│   │   ├── grafico_crescente.py
+│   │   ├── grafico_decrescente.py
+│   │   └── graficos.py
+│   ├── rust/
+│   │   └── main.rs
 │   ├── aleatorio.txt
 │   ├── crescente.txt
-│   └── decrescente.txt
-├── javascript/
-│   └── selection.js
-├── python/
-│   └── selection.py
-├── rust/
-│   └── selection.rs
-└── makefile
-├── insertion_sort/       # 📂 Insertion Sort
-│   ├── ...
-├── gnome_sort/           # 📂 Gnome Sort
-│   ├── ...
-├── bubble_sort/          # 📂 Bubble Sort (Algoritmo Adicional)
+│   ├── decrescente.txt
+│   └── Makefile
+├── gnome_sort/
+│   ├── cpp/
+│   │   └── GnomeSort.cpp
+│   ├── javascript/
+│   │   └── GnomeSort.js
+│   ├── python/
+│   │   └── GnomeSort.py
+│   ├── rust/
+│   │   └── GnomeSort.rs
+│   ├── inputs/
+│   │   ├── melhor_100.txt … melhor_1000000.txt
+│   │   ├── medio_100.txt  … medio_1000000.txt
+│   │   └── pior_100.txt   … pior_1000000.txt
+│   ├── graficos/
+│   │   ├── gnome_sort_c.png
+│   │   ├── gnome_sort_cpp.png
+│   │   ├── gnome_sort_javascript.png
+│   │   ├── gnome_sort_python.png
+│   │   ├── gnome_sort_rust.png
+│   │   └── gnome_js_vs_python_comparativo.png
+│   ├── resultados/
+│   │   ├── resultados_melhor.txt
+│   │   ├── resultados_medio.txt
+│   │   ├── resultados_pior.txt
+│   │   └── resultados_consolidado.txt
+│   ├── GnomeSort.c
+│   └── README.md
+├── bubble_sort/
 │   ├── c/
 │   │   └── bubble_sort.c
 │   ├── cpp/
 │   │   └── bubble_sort.cpp
-│   ├── rust/
-│   │   └── bubble_sort.rs
-│   ├── js/
+│   ├── javascript/
 │   │   └── bubble_sort.js
 │   ├── python/
 │   │   └── bubble_sort.py
-│   └── makefile
-├── data/                 # 📂 Arquivos de entrada
-│   ├── crescente.txt
+│   ├── rust/
+│   │   └── bubble_sort.rs
 │   ├── aleatorio.txt
-│   └── decrescente.txt
+│   ├── crescente.txt
+│   ├── decrescente.txt
+│   └── Makefile
 └── README.md
 ```
+ 
+&nbsp;
 
 &nbsp;
 
