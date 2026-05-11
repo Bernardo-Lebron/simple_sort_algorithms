@@ -366,9 +366,7 @@ RUSTFLAGS = -C opt-level=3
 
 
 
-### 5.2. Insertion Sort
-
-## 📊 5.1. Insertion Sort
+### 🃏 5.2. Insertion Sort
 
 O Insertion Sort é um algoritmo de ordenação por comparação baseado no paradigma de **inserção incremental**. A cada iteração, o algoritmo assume que a porção esquerda do vetor já está ordenada e insere o próximo elemento na posição correta, deslocando os elementos maiores uma posição para frente.
 
