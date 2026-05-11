@@ -1,13 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <string>
 #include <chrono>
-#include <string> // Para o stoi
+#include <iomanip>
 
-using namespace std;
-
-// Implementação do Selection Sort
-void selectionSort(vector<double>& arr) {
+void selectionSort(std::vector<double>& arr) {
     int n = arr.size();
     for (int i = 0; i < n - 1; i++) {
         int min_idx = i;
@@ -15,47 +13,73 @@ void selectionSort(vector<double>& arr) {
             if (arr[j] < arr[min_idx])
                 min_idx = j;
         }
-        // Troca usando a função padrão do C++
-        swap(arr[min_idx], arr[i]);
+        std::swap(arr[min_idx], arr[i]);
     }
 }
 
-int main(int argc, char* argv[]) {
-    // Captura o N do terminal. Se não existir, usa 1000.
-    int num_linhas = (argc > 1) ? stoi(argv[1]) : 1000;
-    
-    vector<double> data;
-    data.reserve(num_linhas); // Reserva memória para evitar realocações
+/**
+ * Função para carregar 'n' linhas do arquivo e medir o tempo de ordenação.
+ */
+double rodar_teste(const std::string& caminho_arquivo, int n) {
+    std::vector<double> v;
+    v.reserve(n);
 
-    // Abre o arquivo (o caminho ../dados/aleatorio.txt está correto para o Makefile)
-    ifstream file("../dados/aleatorio.txt");
-    
+    std::ifstream file(caminho_arquivo);
     if (!file.is_open()) {
-        cerr << "Erro ao abrir o arquivo dados!" << endl;
-        return 1;
+        std::cerr << "Erro ao abrir: " << caminho_arquivo << std::endl;
+        return -1.0;
     }
 
-    double valor;
-    int cont = 0;
-    // Lê exatamente N valores ou até o fim do arquivo
-    while (cont < num_linhas && file >> valor) {
-        data.push_back(valor);
-        cont++;
+    std::string line;
+    int count = 0;
+    while (count < n && std::getline(file, line)) {
+        if (!line.empty()) {
+            v.push_back(std::stod(line));
+            count++;
+        }
     }
     file.close();
 
-    // Medição de tempo com high_resolution_clock
-    auto start = chrono::high_resolution_clock::now();
-    selectionSort(data);
-    auto end = chrono::high_resolution_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
 
-    chrono::duration<double> diff = end - start;
-    
-    // Formato de saída para facilitar a leitura no benchmark
-    cout << "Tempo: " << fixed<<  diff.count() << " s" << endl;
-    if (!data.empty()) {
-        cout << "Menor valor: " << data[0] << endl;
+    selectionSort(v);
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> diff = end - start;
+    return diff.count();
+}
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cout << "Uso: " << argv[0] << " <quantidade_elementos>" << std::endl;
+        return 1;
     }
+
+    int n = std::stoi(argv[1]);
+
+    std::cout << "--- Iniciando Benchmark C++ (N: " << n << ") ---" << std::endl << std::endl;
+    std::cout << std::fixed << std::setprecision(6);
+
+    // TESTE 1: MELHOR CASO
+    double d1 = rodar_teste("../dados/crescente.txt", n);
+    if (d1 >= 0) {
+        std::cout << "1. Crescente:     " << d1 << " segundos (Melhor caso)" << std::endl;
+    }
+
+    // TESTE 2: CASO MÉDIO
+    double d2 = rodar_teste("../dados/aleatorio.txt", n);
+    if (d2 >= 0) {
+        std::cout << "2. Aleatorio:     " << d2 << " segundos (Caso Médio)" << std::endl;
+    }
+
+    // TESTE 3: PIOR CASO
+    double d3 = rodar_teste("../dados/decrescente.txt", n);
+    if (d3 >= 0) {
+        std::cout << "3. Decrescente:   " << d3 << " segundos (Pior caso)" << std::endl;
+    }
+
+    std::cout << "\n--- Testes concluidos ---" << std::endl;
 
     return 0;
 }

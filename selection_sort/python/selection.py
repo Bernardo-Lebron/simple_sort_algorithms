@@ -1,6 +1,6 @@
+import sys
 import time
 import os
-import sys
 
 def selection_sort(arr):
     n = len(arr)
@@ -11,34 +11,53 @@ def selection_sort(arr):
                 min_idx = j
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
 
-# --- Configuração do N vindo do Makefile ---
-# Se houver um argumento, converte para int. Se não, usa 1000.
-num_linhas = int(sys.argv[1]) if len(sys.argv) > 1 else 1000
+def rodar_teste(nome_arquivo, n):
+    try:
+        with open(nome_arquivo, 'r') as f:
+            v = []
+            for _ in range(n):
+                line = f.readline()
+                if not line:
+                    break
+                v.append(float(line.strip()))
 
-# --- Configuração do Caminho ---
-base_path = os.path.dirname(__file__)
-file_path = os.path.join(base_path, "..", "dados", "aleatorio.txt")
+        if len(v) < n:
+            print(f"Aviso: O arquivo {nome_arquivo} possui apenas {len(v)} registros.")
 
-try:
-    with open(file_path, "r") as f:
-        # Lê exatamente 'num_linhas' do arquivo
-        data = []
-        for _ in range(num_linhas):
-            linha = f.readline()
-            if not linha:
-                break
-            data.append(float(linha.strip()))
+        start = time.perf_counter()
+        selection_sort(v)
+        end = time.perf_counter()
 
-    start = time.time()
-    selection_sort(data)
-    end = time.time()
+        return end - start
+    except FileNotFoundError:
+        print(f"Erro: Arquivo {nome_arquivo} não encontrado.")
+        return -1
+    except Exception as e:
+        print(f"Erro: {e}")
+        return -1
 
-    # Saída formatada para o benchmark
-    print(f"Tempo: {end - start:.6f} s")
-    if data:
-        print(f"Menor valor: {data[0]}")
+def main():
+    if len(sys.argv) < 2:
+        print(f"Uso: python3 {sys.argv[0]} <n_elementos>")
+        sys.exit(1)
 
-except FileNotFoundError:
-    print(f"Erro: O arquivo nao foi encontrado em: {file_path}")
-except Exception as e:
-    print(f"Ocorreu um erro em python/selection.py: {e}")
+    n = int(sys.argv[1])
+    base_path = os.path.dirname(__file__)
+
+    print(f"--- Iniciando Benchmark Python (N: {n}) ---\n")
+
+    testes = [
+        ("Crescente",   os.path.join(base_path, "..", "dados", "crescente.txt"),   "(Melhor caso)"),
+        ("Aleatorio",   os.path.join(base_path, "..", "dados", "aleatorio.txt"),   "(Caso Médio)"),
+        ("Decrescente", os.path.join(base_path, "..", "dados", "decrescente.txt"), "(Pior caso)"),
+    ]
+
+    for i, (nome, path, desc) in enumerate(testes):
+        tempo = rodar_teste(path, n)
+        if tempo >= 0:
+            print(f"{i + 1}. {nome:12}: {tempo:.6f} segundos {desc}")
+
+    print("\n--- Testes concluidos ---")
+
+if __name__ == "__main__":
+    main()

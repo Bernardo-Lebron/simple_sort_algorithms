@@ -12,50 +12,59 @@ fn selection_sort(arr: &mut Vec<f64>) {
                 min_idx = j;
             }
         }
-        // Troca os elementos de lugar
         arr.swap(i, min_idx);
     }
 }
 
-fn main() {
-    // 1. Captura o N do Makefile (argumento de linha de comando)
-    let args: Vec<String> = env::args().collect();
-    let n: usize = if args.len() > 1 {
-        args[1].parse().unwrap_or(1000)
-    } else {
-        1000
-    };
-
-    // 2. Caminho do arquivo (seguindo o padrão ../dados/...)
-    let path = "../dados/aleatorio.txt";
-    let file = match File::open(path) {
+/**
+ * Função para carregar dados do arquivo e medir o tempo de execução.
+ */
+fn rodar_teste(caminho: &str, n: usize) -> f64 {
+    let file = match File::open(caminho) {
         Ok(f) => f,
-        Err(_) => {
-            println!("Erro ao abrir arquivo em rust/selection!");
-            return;
-        }
+        Err(_) => return -1.0,
     };
 
     let reader = BufReader::new(file);
-    let mut data: Vec<f64> = Vec::with_capacity(n);
+    let mut v: Vec<f64> = Vec::with_capacity(n);
 
-    // 3. Lê exatamente N linhas
     for line in reader.lines().take(n) {
-        if let Ok(value) = line {
-            if let Ok(num) = value.trim().parse::<f64>() {
-                data.push(num);
+        if let Ok(l) = line {
+            if let Ok(num) = l.trim().parse::<f64>() {
+                v.push(num);
             }
         }
     }
 
-    // 4. Medição de tempo (padrão Rust High Precision)
     let start = Instant::now();
-    selection_sort(&mut data);
+    selection_sort(&mut v);
     let duration = start.elapsed();
 
-    // 5. Saída formatada para o seu terminal
-    println!("Tempo: {:.6} s", duration.as_secs_f64());
-    if !data.is_empty() {
-        println!("Menor valor: {:.2}", data[0]);
+    duration.as_secs_f64()
+}
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        println!("Uso: {} <n_elementos>", args[0]);
+        return;
     }
+
+    let n: usize = args[1].parse().unwrap_or(0);
+    println!("--- Iniciando Benchmark Rust (N: {}) ---\n", n);
+
+    let testes = [
+        ("Crescente",   "../dados/crescente.txt",   "(Melhor caso)"),
+        ("Aleatorio",   "../dados/aleatorio.txt",   "(Caso Médio)" ),
+        ("Decrescente", "../dados/decrescente.txt", "(Pior caso)"  ),
+    ];
+
+    for (idx, (nome, caminho, desc)) in testes.iter().enumerate() {
+        let tempo = rodar_teste(caminho, n);
+        if tempo >= 0.0 {
+            println!("{}. {:12}: {:.6} segundos {}", idx + 1, nome, tempo, desc);
+        }
+    }
+
+    println!("\n--- Testes concluidos ---");
 }
