@@ -368,7 +368,351 @@ RUSTFLAGS = -C opt-level=3
 
 ### 5.2. Insertion Sort
 
-> 🚧 Seção a ser preenchida pelo(a) responsável.
+## 📊 5.1. Insertion Sort
+
+O Insertion Sort é um algoritmo de ordenação por comparação baseado no paradigma de **inserção incremental**. A cada iteração, o algoritmo assume que a porção esquerda do vetor já está ordenada e insere o próximo elemento na posição correta, deslocando os elementos maiores uma posição para frente.
+
+Seu funcionamento é inspirado na forma como cartas são organizadas manualmente em um baralho: cada nova carta é inserida na posição adequada entre as cartas já ordenadas.
+
+A principal característica do Insertion Sort é sua natureza **adaptativa**. Diferentemente de algoritmos quadráticos como o Selection Sort, ele consegue aproveitar entradas já parcialmente ordenadas, reduzindo significativamente a quantidade de operações realizadas.
+
+Além disso, o algoritmo utiliza principalmente operações de **shifting** (deslocamento de elementos), ao invés de trocas diretas sucessivas.
+
+---
+
+### Pseudocódigo
+
+```text
+FUNCAO INSERTION_SORT
+  ENTRADA: VETOR de tamanho N
+  SAIDA  : VETOR ordenado em ordem crescente
+
+  PARA i DE 1 ATE N - 1 FACA
+
+    CHAVE <- VETOR[i]
+    j <- i - 1
+
+    ENQUANTO j >= 0 E VETOR[j] > CHAVE FACA
+      VETOR[j + 1] <- VETOR[j]
+      j <- j - 1
+    FIM ENQUANTO
+
+    VETOR[j + 1] <- CHAVE
+
+  FIM PARA
+
+  RETORNE VETOR
+FIM FUNCAO
+```
+
+### Complexidade
+
+O desempenho do Insertion Sort depende diretamente da organização prévia dos dados.
+
+| Caso        | Comparações | Movimentações | Complexidade |
+| ----------- | ----------: | ------------: | -----------: |
+| Melhor caso |        O(n) |          O(1) |         Θ(n) |
+| Caso médio  |       O(n²) |         O(n²) |        Θ(n²) |
+| Pior caso   |       O(n²) |         O(n²) |        Θ(n²) |
+
+**Complexidade espacial:** O(1) — algoritmo in-place, sem memória auxiliar proporcional à entrada.
+
+---
+
+### Propriedades
+
+| Propriedade    | Valor | Justificativa                                             |
+| -------------- | ----- | --------------------------------------------------------- |
+| **Estável**    | ✅ Sim | Elementos iguais mantêm a ordem relativa original         |
+| **In-place**   | ✅ Sim | Utiliza apenas variáveis auxiliares simples               |
+| **Adaptativo** | ✅ Sim | Aproveita entradas já ordenadas ou parcialmente ordenadas |
+
+> **Nota sobre adaptatividade:** diferente do Selection Sort, o Insertion Sort reduz significativamente sua quantidade de operações quando os dados já estão ordenados. Isso foi confirmado experimentalmente pelos tempos extremamente baixos obtidos no cenário crescente.
+
+---
+
+### Linguagens e Estruturas de Dados
+
+Todas as implementações seguem exatamente a mesma lógica algorítmica, garantindo que as diferenças observadas estejam relacionadas principalmente ao ambiente de execução, compilador e otimizações aplicadas.
+
+| Linguagem  | Estrutura interna | Tipo do elemento | Modelo de execução       |
+| ---------- | ----------------- | ---------------- | ------------------------ |
+| C          | `int[]` estático  | `int` (32 bits)  | Compilada — gcc          |
+| C++        | `int[]` estático  | `int` (32 bits)  | Compilada — g++          |
+| Rust       | `Vec<i32>`        | `i32` (32 bits)  | Compilada — rustc (LLVM) |
+| JavaScript | `Array`           | `Number`         | JIT — Node.js / V8       |
+| Python     | `list`            | `int`            | Interpretada — CPython   |
+
+> O Python apresentou desempenho inferior devido ao overhead da máquina virtual e ao armazenamento de objetos dinâmicos. Já C e C++ obtiveram os melhores resultados após a aplicação de otimizações agressivas de compilação (`-O3`).
+
+---
+
+### Ambiente Experimental
+
+| Componente           | Especificação                                                  |
+| -------------------- | -------------------------------------------------------------- |
+| Sistema Operacional  | Windows 11                                                     |
+| Processador          | Intel Core i5 — 12ª geração                                    |
+| Memória RAM          | 16 GB                                                          |
+| Armazenamento        | SSD 512 GB                                                     |
+| Placa de vídeo       | NVIDIA GeForce RTX 3050                                        |
+| Compilador C         | GCC — flags `-O0` (sem otimização) e `-O3` (máxima otimização) |
+| Compilador C++       | G++ — flags `-O0` e `-O3`                                      |
+| Compilador Rust      | rustc — `opt-level=0` e `opt-level=3`                          |
+| Runtime JavaScript   | Node.js (motor V8 com JIT)                                     |
+| Interpretador Python | CPython                                                        |
+
+---
+
+### Medição de Tempo
+
+| Linguagem  | Função utilizada                           | Precisão       |
+| ---------- | ------------------------------------------ | -------------- |
+| C          | `gettimeofday()`                           | Microssegundos |
+| C++        | `std::chrono::high_resolution_clock`       | Nanossegundos  |
+| Rust       | `std::time::Instant::now()` / `.elapsed()` | Nanossegundos  |
+| JavaScript | `process.hrtime.bigint()`                  | Nanossegundos  |
+| Python     | `time.perf_counter()`                      | Alta precisão  |
+
+---
+
+### Dataset
+
+Os experimentos utilizam arquivos de entrada gerados previamente:
+
+| Arquivo           | Conteúdo                          | Cenário     |
+| ----------------- | --------------------------------- | ----------- |
+| `crescente.txt`   | Inteiros ordenados crescentemente | Melhor caso |
+| `aleatorio.txt`   | Inteiros aleatórios               | Caso médio  |
+| `decrescente.txt` | Inteiros em ordem decrescente     | Pior caso   |
+
+Cada arquivo contém até **1.000.000 de números inteiros**, sendo utilizados subconjuntos de tamanho:
+
+```text
+10², 10³, 10⁴, 10⁵ e 10⁶
+```
+
+---
+
+## 📊 Resultados Experimentais
+
+### N = 10² e N = 10³ (tempos em segundos)
+
+| Linguagem   | Otimiz. |  Crescente | Aleatório | Decrescente |
+| ----------- | ------- | ---------: | --------: | ----------: |
+| **N = 10²** |         |            |           |             |
+| C           | -O0     |   0.000001 |  0.000004 |    0.000010 |
+| C           | -O3     |  0.0000001 |  0.000002 |    0.000003 |
+| C++         | -O0     |  0.0000015 |  0.000021 |    0.000040 |
+| C++         | -O3     |  0.0000002 | 0.0000021 |   0.0000031 |
+| Rust        | sem     |   0.000001 |  0.000015 |    0.000024 |
+| Rust        | com     |   0.000000 |  0.000002 |    0.000004 |
+| JavaScript  | V8 JIT  |   0.000042 |  0.000219 |    0.000340 |
+| Python      | N/A     |   0.000011 |  0.000117 |    0.000196 |
+| **N = 10³** |         |            |           |             |
+| C           | -O0     |   0.000001 |  0.000271 |    0.000545 |
+| C           | -O3     |   0.000001 |  0.000102 |    0.000129 |
+| C++         | -O0     | 0.00010072 |  0.002454 |   0.0050692 |
+| C++         | -O3     |  0.0000002 | 0.0000664 |   0.0001221 |
+| Rust        | sem     |   0.000011 |  0.001176 |    0.003093 |
+| Rust        | com     |   0.000001 |  0.000095 |    0.000181 |
+| JavaScript  | V8 JIT  |   0.000191 |  0.000993 |    0.001215 |
+| Python      | N/A     |   0.000107 |  0.010413 |     0.02094 |
+
+---
+
+### N = 10⁴ e N = 10⁵ (tempos em segundos)
+
+| Linguagem   | Otimiz. | Crescente | Aleatório | Decrescente |
+| ----------- | ------- | --------: | --------: | ----------: |
+| **N = 10⁴** |         |           |           |             |
+| C           | -O0     |  0.000014 |  0.025653 |    0.059135 |
+| C           | -O3     |  0.000007 |  0.006070 |    0.011672 |
+| C++         | -O0     | 0.0000093 |  0.193293 |    0.389041 |
+| C++         | -O3     | 0.0000065 | 0.0059649 |   0.0120779 |
+| Rust        | sem     |  0.000124 |  0.011176 |    0.223538 |
+| Rust        | com     |  0.000008 |  0.008847 |    0.020271 |
+| JavaScript  | V8 JIT  |  0.000514 |  0.016374 |    0.032820 |
+| Python      | N/A     |  0.000591 |  1.239607 |     2.25077 |
+| **N = 10⁵** |         |           |           |             |
+| C           | -O0     |  0.000142 |  2.591586 |     5.02298 |
+| C           | -O3     |  0.000055 |  0.615683 |    1.188966 |
+| C++         | -O0     | 0.0010404 |     18.86 |       37.81 |
+| C++         | -O3     | 0.0000634 |  0.587483 |       1.183 |
+| Rust        | sem     |  0.001099 |  11.69859 |     23.3430 |
+| Rust        | com     |  0.000079 |  0.897895 |    1.774292 |
+| JavaScript  | V8 JIT  |  0.000809 |  1.525250 |    3.033301 |
+| Python      | N/A     |  0.005321 |   136.295 |     226.560 |
+
+---
+
+> `N = 10⁶` apresentou crescimento extremamente elevado devido à complexidade quadrática `O(n²)` do algoritmo. Em alguns cenários, especialmente sem otimização, os tempos ultrapassaram dezenas de minutos.
+
+### N = 10⁶ (tempos em segundos)
+
+| Linguagem  | Crescente | Aleatório | Decrescente |
+| ---------- | --------: | --------: | ----------: |
+| C (-O0)    |  0.001413 |   262.592 |      543.40 |
+| C (-O3)    |  0.000587 |  60.79153 |      118.26 |
+| C++ (-O0)  |  0.009488 |   1832.96 |     3670.49 |
+| C++ (-O3)  |  0.000622 |   60.1009 |     119.147 |
+| Rust (sem) |  0.011581 |   1123.52 |           — |
+| Rust (com) |  0.000861 |  90.24779 |    182.6751 |
+| JavaScript |  0.000809 |    152.74 |     312.910 |
+| Python     |   0.05369 |         — |           — |
+
+---
+
+## 📈 Análise dos Resultados
+
+### Adaptatividade confirmada empiricamente
+
+Os resultados mostraram claramente a principal característica do Insertion Sort: sua capacidade de aproveitar entradas previamente ordenadas.
+
+Nos cenários crescentes, mesmo para `10⁶` elementos, os tempos permaneceram extremamente baixos, confirmando experimentalmente o melhor caso:
+
+```text id="8vnh5y"
+T(n) = O(n)
+```
+
+Isso ocorreu porque praticamente não houve deslocamentos internos no vetor.
+
+Já nos cenários aleatórios e decrescentes, o crescimento quadrático tornou-se evidente.
+
+---
+
+### Impacto da otimização de compilador
+
+As otimizações tiveram impacto extremamente significativo em C, C++ e Rust.
+
+O caso mais impressionante ocorreu no C++ utilizando entrada decrescente com `10⁶` elementos:
+
+* Sem otimização (`-O0`): aproximadamente **3670 segundos**
+* Com otimização (`-O3`): aproximadamente **119 segundos**
+
+A redução foi superior a **30 vezes**, demonstrando a eficiência das otimizações modernas de compiladores como GCC e LLVM.
+
+Em C, o mesmo cenário caiu de aproximadamente **543 segundos** para **118 segundos**.
+
+---
+
+### Comparação entre linguagens
+
+A hierarquia geral de desempenho observada foi:
+
+```text id="p81i4p"
+C (-O3) ≈ C++ (-O3) < Rust (O3) < JavaScript < Python
+```
+
+As linguagens compiladas com otimização máxima apresentaram desempenho extremamente próximo.
+
+O JavaScript apresentou resultados surpreendentemente competitivos devido ao motor V8 com compilação JIT.
+
+Já o Python apresentou os maiores tempos de execução devido ao overhead do interpretador e do modelo dinâmico de objetos.
+
+---
+
+### Crescimento quadrático
+
+O crescimento dos tempos tornou-se extremamente elevado entre `10⁵` e `10⁶` elementos nos cenários aleatório e decrescente.
+
+Esse comportamento confirmou experimentalmente a complexidade:
+
+```text id="l0xixm"
+T(n) = O(n^2)
+```
+
+Por esse motivo, o Insertion Sort torna-se inviável para grandes volumes de dados quando comparado a algoritmos mais eficientes como Merge Sort ou Quick Sort.
+
+---
+
+### Sensibilidade à ordenação prévia
+
+O contraste entre os cenários crescente e decrescente demonstrou claramente a sensibilidade do Insertion Sort à distribuição inicial dos dados.
+
+Enquanto o cenário crescente executou em poucos microssegundos mesmo com `10⁶` elementos, o cenário decrescente exigiu centenas ou até milhares de segundos nas versões sem otimização.
+
+Essa característica explica o uso do Insertion Sort em algoritmos híbridos modernos, principalmente para pequenos subconjuntos parcialmente ordenados.
+
+
+#### Hierarquia de desempenho
+
+```text
+C (-O3) ≈ C++ (-O3) < Rust (O3) < JavaScript < Python
+```
+
+As linguagens compiladas com otimização máxima apresentaram desempenho muito próximo entre si.
+
+O JavaScript surpreendeu positivamente devido às otimizações JIT do motor V8, enquanto o Python apresentou os maiores tempos devido ao overhead interpretado.
+
+---
+
+### Gráficos
+
+Os gráficos abaixo mostram o comportamento do algoritmo nos três cenários:
+
+|               Melhor Caso               |               Caso Médio              |              Pior Caso              |
+| :-------------------------------------: | :-----------------------------------: | :---------------------------------: |
+| ![Melhor Caso](Graficos/MelhorCaso.png) | ![Caso Médio](Graficos/CasoMedio.png) | ![Pior Caso](Graficos/PiorCaso.png) |
+
+---
+
+### Compilação e Execução
+
+#### C
+
+```bash
+gcc main.c -o main
+./main
+```
+
+#### C com otimização
+
+```bash
+gcc main.c -O3 -o main
+./main
+```
+
+#### C++
+
+```bash
+g++ main.cpp -o main
+./main
+```
+
+#### C++ com otimização
+
+```bash
+g++ main.cpp -O3 -o main
+./main
+```
+
+#### Rust
+
+```bash
+rustc main.rs
+./main
+```
+
+#### Rust com otimização máxima
+
+```bash
+rustc main.rs -C opt-level=3
+./main
+```
+
+#### JavaScript
+
+```bash
+node main.js
+```
+
+#### Python
+
+```bash
+python main.py
+```
+
 
 &nbsp;
 
