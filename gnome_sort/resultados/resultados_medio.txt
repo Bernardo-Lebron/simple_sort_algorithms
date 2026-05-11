@@ -1,0 +1,310 @@
+
+╔══════════════════════════════════════════════════╗
+║  BENCHMARK ROBUSTO                                ║
+║  Caso: medio   N: 100
+║  Repetições: 5   Espera entre linguagens: 30s
+╚══════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 0.0206 ms
+    execução 2: 0.0206 ms
+    execução 3: 0.0206 ms
+    execução 4: 0.0257 ms
+    execução 5: 0.0206 ms
+  → min descartado: 0.0206 ms | max descartado: 0.0257 ms
+  → média dos 3 do meio: .020600 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C++]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 0.075406 ms
+    execução 2: 0.020523 ms
+    execução 3: 0.020595 ms
+    execução 4: 0.020592 ms
+    execução 5: 0.020485 ms
+  → min descartado: 0.020485 ms | max descartado: 0.075406 ms
+  → média dos 3 do meio: .020570 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Rust]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 0.0360 ms
+    execução 2: 0.0093 ms
+    execução 3: 0.0084 ms
+    execução 4: 0.0088 ms
+    execução 5: 0.0092 ms
+  → min descartado: 0.0084 ms | max descartado: 0.0360 ms
+  → média dos 3 do meio: .009100 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [JavaScript]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 1.0939 ms
+    execução 2: 1.2943 ms
+    execução 3: 1.1294 ms
+    execução 4: 1.1175 ms
+    execução 5: 1.1151 ms
+  → min descartado: 1.0939 ms | max descartado: 1.2943 ms
+  → média dos 3 do meio: 1.120666 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Python]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 1.0841 ms
+    execução 2: 1.2255 ms
+    execução 3: 1.1314 ms
+    execução 4: 1.0658 ms
+    execução 5: 1.0382 ms
+  → min descartado: 1.0382 ms | max descartado: 1.2255 ms
+  → média dos 3 do meio: 1.093766 ms
+
+
+╔══════════════════════════════════════════════════╗
+║  Benchmark finalizado!                            ║
+╚══════════════════════════════════════════════════╝
+
+
+╔══════════════════════════════════════════════════╗
+║  BENCHMARK ROBUSTO                                ║
+║  Caso: medio   N: 1000
+║  Repetições: 5   Espera entre linguagens: 30s
+╚══════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 1.9329 ms
+    execução 2: 1.9500 ms
+    execução 3: 1.7827 ms
+    execução 4: 1.8354 ms
+    execução 5: 1.9168 ms
+  → min descartado: 1.7827 ms | max descartado: 1.9500 ms
+  → média dos 3 do meio: 1.895033 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C++]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 2.54414 ms
+    execução 2: 1.82101 ms
+    execução 3: 1.8342 ms
+    execução 4: 1.846 ms
+    execução 5: 2.34505 ms
+  → min descartado: 1.846 ms | max descartado: 2.54414 ms
+  → média dos 3 do meio: 2.000086 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Rust]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 1.8405 ms
+    execução 2: 0.5456 ms
+    execução 3: 0.5247 ms
+    execução 4: 0.5237 ms
+    execução 5: 0.5892 ms
+  → min descartado: 0.5237 ms | max descartado: 1.8405 ms
+  → média dos 3 do meio: .553166 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [JavaScript]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 6.3840 ms
+    execução 2: 5.3677 ms
+    execução 3: 5.1928 ms
+    execução 4: 5.3564 ms
+    execução 5: 5.6250 ms
+  → min descartado: 5.1928 ms | max descartado: 6.3840 ms
+  → média dos 3 do meio: 5.449700 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Python]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 110.0993 ms
+    execução 2: 105.4625 ms
+    execução 3: 111.6737 ms
+    execução 4: 103.2639 ms
+    execução 5: 106.5235 ms
+  → min descartado: 103.2639 ms | max descartado: 111.6737 ms
+  → média dos 3 do meio: 107.361766 ms
+
+
+╔══════════════════════════════════════════════════╗
+║  Benchmark finalizado!                            ║
+╚══════════════════════════════════════════════════╝
+
+
+╔══════════════════════════════════════════════════╗
+║  BENCHMARK ROBUSTO                                ║
+║  Caso: medio   N: 10000
+║  Repetições: 5   Espera entre linguagens: 30s
+╚══════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 156.3455 ms
+    execução 2: 153.1718 ms
+    execução 3: 157.4015 ms
+    execução 4: 151.6394 ms
+    execução 5: 153.2564 ms
+  → min descartado: 151.6394 ms | max descartado: 157.4015 ms
+  → média dos 3 do meio: 154.257900 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C++]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 155.769 ms
+    execução 2: 150.906 ms
+    execução 3: 150.947 ms
+    execução 4: 152.399 ms
+    execução 5: 147.219 ms
+  → min descartado: 147.219 ms | max descartado: 155.769 ms
+  → média dos 3 do meio: 151.417333 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Rust]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 52.7860 ms
+    execução 2: 49.5198 ms
+    execução 3: 49.3980 ms
+    execução 4: 49.2127 ms
+    execução 5: 49.2487 ms
+  → min descartado: 49.2127 ms | max descartado: 52.7860 ms
+  → média dos 3 do meio: 49.388833 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [JavaScript]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 141.1055 ms
+    execução 2: 133.4248 ms
+    execução 3: 138.7781 ms
+    execução 4: 138.5972 ms
+    execução 5: 136.9691 ms
+  → min descartado: 133.4248 ms | max descartado: 141.1055 ms
+  → média dos 3 do meio: 138.114800 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Python]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 11243.1756 ms
+    execução 2: 10795.1987 ms
+    execução 3: 10825.6589 ms
+    execução 4: 11617.6647 ms
+    execução 5: 11582.8708 ms
+  → min descartado: 10795.1987 ms | max descartado: 11617.6647 ms
+  → média dos 3 do meio: 11217.235100 ms
+
+
+╔══════════════════════════════════════════════════╗
+║  Benchmark finalizado!                            ║
+╚══════════════════════════════════════════════════╝
+
+
+╔══════════════════════════════════════════════════╗
+║  BENCHMARK ROBUSTO                                ║
+║  Caso: medio   N: 100000
+║  Repetições: 5   Espera entre linguagens: 30s
+╚══════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 15902.0359 ms
+    execução 2: 14350.8901 ms
+    execução 3: 15457.2622 ms
+    execução 4: 15763.8761 ms
+    execução 5: 14295.9786 ms
+  → min descartado: 14295.9786 ms | max descartado: 15902.0359 ms
+  → média dos 3 do meio: 15190.676133 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [C++]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 13910.6 ms
+    execução 2: 13977.7 ms
+    execução 3: 13966 ms
+    execução 4: 14015.9 ms
+    execução 5: 14843.8 ms
+  → min descartado: 13966 ms | max descartado: 14843.8 ms
+  → média dos 3 do meio: 13968.066666 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Rust]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 3948.5007 ms
+    execução 2: 3945.5639 ms
+    execução 3: 3943.1267 ms
+    execução 4: 3950.2354 ms
+    execução 5: 3958.0591 ms
+  → min descartado: 3943.1267 ms | max descartado: 3958.0591 ms
+  → média dos 3 do meio: 3948.100000 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [JavaScript]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 12693.1741 ms
+    execução 2: 13824.0338 ms
+    execução 3: 13924.3047 ms
+    execução 4: 14098.7815 ms
+    execução 5: 13978.9095 ms
+  → min descartado: 12693.1741 ms | max descartado: 14098.7815 ms
+  → média dos 3 do meio: 13909.082666 ms
+
+  Aguardando 30s para o processador esfriar...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Python]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Rodando 5 execuções...
+    execução 1: 1084866.3598 ms
+    execução 2: 1139101.7243 ms
+    execução 3: 1080211.8225 ms
