@@ -700,10 +700,212 @@ make run N=100000  # Executa o benchmark completo para N elementos
 
 &nbsp;
 
+### 👣 5.3. Gnome Sort
 
-### 5.3. Gnome Sort
+O Gnome Sort é um algoritmo de ordenação por comparação inspirado no comportamento de um “gnomo de jardim” organizando vasos em sequência. O algoritmo percorre o vetor comparando elementos adjacentes; quando encontra dois elementos fora de ordem (`aᵢ > aᵢ₊₁`), realiza a troca e retorna uma posição para trás. Caso os elementos estejam em ordem, avança normalmente.
 
-> 🚧 Seção a ser preenchida pelo(a) responsável.
+Diferente do Bubble Sort, que realiza passagens completas sobre o vetor, o Gnome Sort move-se localmente para frente e para trás, corrigindo inversões imediatamente após encontrá-las. Seu funcionamento é semelhante ao Insertion Sort implementado por trocas sucessivas.
+
+A implementação utilizada possui comportamento **adaptativo**: em vetores já ordenados, o algoritmo apenas percorre o vetor uma vez, atingindo complexidade **O(n)** no melhor caso.
+
+#### Pseudocódigo
+
+```text
+FUNCAO GNOME_SORT
+  ENTRADA: VETOR de tamanho N
+  SAIDA  : VETOR ordenado em ordem crescente
+
+  INDICE <- 0
+
+  ENQUANTO INDICE < N FACA
+
+    SE INDICE = 0 ENTAO
+      INDICE <- INDICE + 1
+
+    SENAO SE VETOR[INDICE] >= VETOR[INDICE - 1] ENTAO
+      INDICE <- INDICE + 1
+
+    SENAO
+      AUXILIAR              <- VETOR[INDICE]
+      VETOR[INDICE]         <- VETOR[INDICE - 1]
+      VETOR[INDICE - 1]     <- AUXILIAR
+
+      INDICE <- INDICE - 1
+    FIM SE
+
+  FIM ENQUANTO
+
+  RETORNE VETOR
+FIM FUNCAO
+```
+
+#### Complexidade
+
+| Caso | Complexidade |
+|---|---|
+| Melhor caso (já ordenado) | O(n) |
+| Caso médio (aleatório) | O(n²) |
+| Pior caso (decrescente) | O(n²) |
+
+**Complexidade espacial:** O(1) — algoritmo in-place, sem uso de memória auxiliar proporcional ao tamanho da entrada.
+
+#### Propriedades
+
+| Propriedade | Valor |
+|---|---|
+| Estável | ✅ Sim — elementos iguais não trocam posição |
+| In-place | ✅ Sim — apenas variáveis temporárias |
+| Adaptativo | ✅ Sim — desempenho linear em entradas ordenadas |
+
+#### Linguagens e Estruturas de Dados
+
+| Linguagem | Estrutura interna | Modelo de execução |
+|---|---|---|
+| C | `int[]` alocado com `malloc` | Compilada — gcc |
+| C++ | `std::vector<int>` | Compilada — g++ |
+| Rust | `Vec<i32>` | Compilada — LLVM |
+| JavaScript | `Array` (SMI otimizado pelo V8) | JIT — Node.js / V8 |
+| Python | `list` (referências a objetos) | Interpretada — CPython |
+
+> A implementação em Python sofre impacto significativo do overhead do interpretador e da estrutura `list`, que armazena referências para objetos genéricos ao invés de inteiros primitivos contíguos em memória.
+
+#### Dataset Experimental
+
+Os experimentos utilizam arquivos de entrada previamente gerados, localizados em `inputs/`.
+
+| Arquivo | Conteúdo | Cenário |
+|---|---|---|
+| `melhor_*.txt` | Inteiros ordenados crescentemente | Melhor caso |
+| `medio_*.txt` | Inteiros em ordem aleatória | Caso médio |
+| `pior_*.txt` | Inteiros ordenados decrescentemente | Pior caso |
+
+Cada arquivo contém **1.000.000 de linhas**, com um inteiro por linha. Os testes utilizam apenas as primeiras N linhas do arquivo correspondente.
+
+#### Ambiente Experimental
+
+| Componente | Especificação |
+|---|---|
+| Processador | Intel Core i3-1315U (1.20 GHz) |
+| Memória RAM | 8 GB |
+| Sistema Operacional | Windows 11 + WSL |
+| Compilador C | GCC (`-O0` e `-O3`) |
+| Compilador C++ | G++ (`-O0` e `-O3`) |
+| Compilador Rust | `rustc` (`opt-level=0` e `opt-level=3`) |
+| Runtime JavaScript | Node.js (motor V8 com JIT) |
+| Interpretador Python | CPython 3.12.11 |
+
+As linguagens compiladas foram avaliadas em dois níveis de otimização:
+- **Sem otimização** (`-O0`)
+- **Otimização máxima** (`-O3` / `opt-level=3`)
+
+Cada configuração foi executada **5 vezes**. O benchmark descarta automaticamente o menor e o maior valor, calculando a média dos 3 resultados centrais para reduzir impacto de outliers.
+
+#### Medição de Tempo
+
+| Linguagem | Função utilizada |
+|---|---|
+| C | `clock() / CLOCKS_PER_SEC` |
+| C++ | `std::chrono::high_resolution_clock` |
+| Rust | `std::time::Instant::now()` |
+| JavaScript | `process.hrtime.bigint()` |
+| Python | `time.time()` |
+
+#### Resultados — Otimização Máxima
+
+**N = 10² e N = 10³ (tempos em segundos)**
+
+| Linguagem | Crescente | Aleatório |
+|---|---:|---:|
+| **N = 10²** | | |
+| C | 0.0000008 | 0.0000206 |
+| C++ | 0.0000009 | 0.0000206 |
+| Rust | 0.0000367 | 0.0000091 |
+| JavaScript | 0.000127 | 0.001201 |
+| Python | 0.000019 | 0.001094 |
+| **N = 10³** | | |
+| C | 0.0000018 | 0.001895 |
+| C++ | 0.0000016 | 0.002000 |
+| Rust | 0.0000378 | 0.000553 |
+| JavaScript | 0.000159 | 0.005308 |
+| Python | 0.000181 | 0.110100 |
+
+**N = 10⁴ e N = 10⁵ (tempos em segundos)**
+
+| Linguagem | Crescente | Aleatório |
+|---|---:|---:|
+| **N = 10⁴** | | |
+| C | 0.0000155 | 0.15426 |
+| C++ | 0.0000150 | 0.15142 |
+| Rust | 0.0000500 | 0.04939 |
+| JavaScript | 0.000555 | 0.13745 |
+| Python | 0.002093 | 11.21724 |
+| **N = 10⁵** | | |
+| C | 0.000179 | 15.19068 |
+| C++ | 0.000159 | 13.96807 |
+| Rust | 0.000049 | 3.94810 |
+| JavaScript | 0.001584 | 13.90908 |
+| Python | 0.019030 | 21.28324 |
+
+#### Pior Caso — Entrada Decrescente (N = 10⁵)
+
+| Linguagem | Tempo |
+|---|---:|
+| C | 28.90668 s |
+| C++ | 28.25787 s |
+| Rust | 8.27646 s |
+| JavaScript | 27.45163 s |
+| Python | 257.00624 s |
+
+#### Análise dos Resultados
+
+A hierarquia de desempenho observada foi:
+
+```text
+Rust ≈ C++ ≈ C < JavaScript < Python
+```
+
+**Principais observações:**
+
+- **Rust apresentou o melhor desempenho geral**, especialmente em cenários com muitas trocas. No caso médio com N = 10⁵, Rust executou em aproximadamente **3,95 s**, enquanto C e C++ ficaram próximos de **14–15 s**.
+  
+- **JavaScript (V8)** demonstrou desempenho surpreendentemente competitivo. O compilador JIT do V8 conseguiu gerar código altamente otimizado para o padrão repetitivo do Gnome Sort, aproximando-se de C/C++ no caso médio.
+
+- **C e C++** tiveram comportamento praticamente idêntico, indicando que o custo dominante do algoritmo está nas operações de comparação e troca, e não nas abstrações de linguagem.
+
+- **Python tornou-se inviável** para grandes entradas. O overhead do interpretador CPython e da estrutura `list` amplifica drasticamente o custo quadrático do algoritmo.
+
+O crescimento dos tempos confirmou empiricamente a complexidade **O(n²)**: ao aumentar a entrada de `10⁴` para `10⁵` elementos (10×), o tempo cresceu aproximadamente **100×** em praticamente todas as linguagens.
+
+#### Compilação e Execução
+
+> **Requisito:** Linux/WSL com `gcc`, `g++`, `rustc`, `node` e `python3` instalados.
+
+```bash
+cd gnome_sort
+
+make clean
+make
+
+# Executa benchmark manual
+./benchmark.sh medio 100000
+```
+
+**Executar todos os testes automaticamente:**
+
+```bash
+for CASO in melhor medio pior; do
+  for N in 100 1000 10000 100000; do
+    ./benchmark.sh $CASO $N
+  done
+done
+```
+
+| Comando | Função |
+|---|---|
+| `make clean` | Remove binários gerados |
+| `make` | Compila C, C++ e Rust |
+| `./benchmark.sh <caso> <N>` | Executa benchmark específico |
+| Loop completo | Executa todos os cenários e tamanhos |
 
 &nbsp;
 
