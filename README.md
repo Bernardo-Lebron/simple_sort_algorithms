@@ -341,7 +341,7 @@ Os gráficos abaixo mostram o tempo de execução por linguagem nos três cenár
 > **Requisito:** Linux com `gcc`, `g++`, `rustc`, `node` e `python3` instalados.
 
 ```bash
-cd "Selection Sort"
+cd selection_sort
 
 make clean          # Remove binários anteriores
 make                # Compila C, C++ e Rust (sem otimização por padrão)
@@ -655,61 +655,23 @@ Os gráficos abaixo mostram o comportamento do algoritmo nos três cenários:
 
 ---
 
-### Compilação e Execução
+#### Compilação e Execução
 
-#### C
-
-```bash
-gcc main.c -o main
-./main
-```
-
-#### C com otimização
+> **Requisito:** Linux com `gcc`, `g++`, `rustc`, `node` e `python3` instalados.
 
 ```bash
-gcc main.c -O3 -o main
-./main
+cd insertion_sort
+
+make clean       # Remove binários anteriores
+make             # Compila C, C++ e Rust (com -O3 por padrão)
+make run N=100000  # Executa o benchmark completo para N elementos
 ```
 
-#### C++
-
-```bash
-g++ main.cpp -o main
-./main
-```
-
-#### C++ com otimização
-
-```bash
-g++ main.cpp -O3 -o main
-./main
-```
-
-#### Rust
-
-```bash
-rustc main.rs
-./main
-```
-
-#### Rust com otimização máxima
-
-```bash
-rustc main.rs -C opt-level=3
-./main
-```
-
-#### JavaScript
-
-```bash
-node main.js
-```
-
-#### Python
-
-```bash
-python main.py
-```
+| Comando | Função |
+|---|---|
+| `make clean` | Remove os binários gerados |
+| `make` | Compila C, C++ e Rust |
+| `make run N=<valor>` | Executa o benchmark completo para N elementos |
 
 
 &nbsp;
