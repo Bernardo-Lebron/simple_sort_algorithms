@@ -878,35 +878,21 @@ O crescimento dos tempos confirmou empiricamente a complexidade **O(n²)**: ao a
 
 #### Compilação e Execução
 
-> **Requisito:** Linux/WSL com `gcc`, `g++`, `rustc`, `node` e `python3` instalados.
+> **Requisito:** Linux com `gcc`, `g++`, `rustc`, `node` e `python3` instalados.
 
 ```bash
 cd gnome_sort
 
-make clean
-make
-
-# Executa benchmark manual
-./benchmark.sh medio 100000
-```
-
-**Executar todos os testes automaticamente:**
-
-```bash
-for CASO in melhor medio pior; do
-  for N in 100 1000 10000 100000; do
-    ./benchmark.sh $CASO $N
-  done
-done
+make clean       # Remove binários anteriores
+make             # Compila C, C++ e Rust (com -O3 por padrão)
+make run N=100000  # Executa o benchmark completo para N elementos
 ```
 
 | Comando | Função |
 |---|---|
-| `make clean` | Remove binários gerados |
+| `make clean` | Remove os binários gerados |
 | `make` | Compila C, C++ e Rust |
-| `./benchmark.sh <caso> <N>` | Executa benchmark específico |
-| Loop completo | Executa todos os cenários e tamanhos |
-
+| `make run N=<valor>` | Executa o benchmark completo para N elementos |
 &nbsp;
 
 
